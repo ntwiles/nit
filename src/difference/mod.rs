@@ -77,11 +77,22 @@ mod tests {
     }
 
     #[test]
-    fn it_identifies_two_sequential_removed_lnes() {
+    fn it_identifies_two_sequential_removed_lines() {
         let old = "a line\nremove a\nremove b\nlast line";
         let new = "a line\nlast line";
 
         let expected = vec![Delta::removed("remove a", 1), Delta::removed("remove b", 2)];
+        let actual = get_diff(old.lines(), new.lines());
+
+        assert_eq!(expected, actual);
+    }
+
+    #[test]
+    fn it_identifies_one_added_and_one_removed_line() {
+        let old = "first line\nremove\nlast line";
+        let new = "first line\nadd\nlast line";
+
+        let expected = vec![Delta::removed("remove", 1), Delta::added("add", 1)];
         let actual = get_diff(old.lines(), new.lines());
 
         assert_eq!(expected, actual);
