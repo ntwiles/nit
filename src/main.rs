@@ -1,17 +1,23 @@
+mod commands;
 mod difference;
 mod util;
 
-use std::fs::read_to_string;
+use std::env;
 
-use difference::get_diff;
+use commands::diff;
 
 fn main() {
-    let file_a = read_to_string("nv/trackMe.txt").unwrap();
-    let file_b = read_to_string("data/trackMe.txt").unwrap();
+    let mut args = env::args();
 
-    let deltas = get_diff(file_a.lines(), file_b.lines());
+    // Ignore arg 0
+    args.next();
 
-    for delta in deltas {
-        println!("{delta}");
+    if let Some(command) = args.next() {
+        match command.as_str() {
+            "diff" => diff(),
+            other => eprintln!("Unknown command: {other}"),
+        }
+    } else {
+        eprintln!("Must enter a command!")
     }
 }
