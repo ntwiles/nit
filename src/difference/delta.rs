@@ -1,3 +1,5 @@
+use std::fmt;
+
 use crate::util::variant_eq;
 
 #[derive(Debug)]
@@ -36,5 +38,20 @@ impl PartialEq for Delta {
         self.delta == other.delta
             && self.line == other.line
             && variant_eq(&self.variant, &other.variant)
+    }
+}
+
+impl fmt::Display for Delta {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let variant_symbol = match self.variant {
+            DeltaVariant::Add => "+",
+            DeltaVariant::Remove => "-",
+        };
+
+        write!(
+            f,
+            "Line {}:\n({}) {}\n",
+            self.line, variant_symbol, self.delta
+        )
     }
 }

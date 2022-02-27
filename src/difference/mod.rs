@@ -23,7 +23,6 @@ pub fn get_diff<'a>(
         .map(|add| Delta::added(add, hm_b[add]));
 
     let mut deltas: Vec<Delta> = removes.chain(adds).collect();
-
     deltas.sort_by_key(|d| d.line);
     deltas
 }
