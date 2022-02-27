@@ -1,4 +1,5 @@
 mod difference;
+mod util;
 
 use std::fs::read_to_string;
 
