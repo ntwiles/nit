@@ -4,7 +4,7 @@ use std::io::prelude::*;
 
 pub fn load_index() -> HashMap<String, String> {
     read_to_string(".nv/index")
-        .expect("Could not load index file!")
+        .expect("Could not load index file.")
         .lines()
         .map(|l| {
             let kvp: Vec<&str> = l.split(' ').collect();
@@ -26,8 +26,8 @@ pub fn write_index(index: &HashMap<String, String>) {
     let mut file = std::fs::OpenOptions::new()
         .write(true)
         .open(".nv/index")
-        .expect("Could not open index file to write!");
+        .expect("Could not open index file to write.");
 
     file.write_all(contents.as_bytes())
-        .expect("Could not write to index file!");
+        .expect("Could not write to index file.");
 }

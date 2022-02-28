@@ -21,6 +21,6 @@ fn main() {
             other => panic!("Unknown command: {other}"),
         };
     } else {
-        eprintln!("Must enter a command!")
+        eprintln!("Must enter a command.")
     }
 }
