@@ -2,11 +2,12 @@ mod commands;
 mod difference;
 mod hash;
 mod index;
+mod objects;
 mod util;
 
 use std::env;
 
-use commands::{add::*, diff, status::*};
+use commands::{add::*, commit::*, diff, status::*};
 
 fn main() {
     let mut args = env::args();
@@ -17,6 +18,7 @@ fn main() {
     if let Some(command) = args.next() {
         match command.as_str() {
             "add" => add(args),
+            "commit" => commit(args),
             "diff" => diff(),
             "status" => status(args),
             other => panic!("Unknown command: {other}"),
