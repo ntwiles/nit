@@ -1,21 +1,17 @@
 pub mod add;
-mod error;
 
 use std::fs::read_to_string;
 
 use crate::difference::get_diff;
 
-use error::Error;
-
-pub fn diff() -> Result<(), Error> {
-    let file_a = read_to_string(".nv/trackMe.txt")?;
-    let file_b = read_to_string("data/trackMe.txt")?;
+// TODO: This is mocked.
+pub fn diff() {
+    let file_a = read_to_string(".nv/trackMe.txt").expect("Could not load file_a");
+    let file_b = read_to_string("data/trackMe.txt").expect("Could not load file_b");
 
     let deltas = get_diff(file_a.lines(), file_b.lines());
 
     for delta in deltas {
         println!("{delta}");
     }
-
-    Ok(())
 }

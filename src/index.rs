@@ -13,6 +13,7 @@ pub fn load_index() -> HashMap<String, String> {
         .collect()
 }
 
+// TODO: Is there a better way to serialize this?
 pub fn write_index(index: &HashMap<String, String>) {
     let index_vec: Vec<(&String, &String)> = index.iter().collect();
 
