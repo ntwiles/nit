@@ -1,6 +1,6 @@
 mod error;
 
-use std::fs::{read_to_string, remove_file, File};
+use std::fs::{read_to_string, File};
 use std::io::prelude::*;
 
 use crate::difference::get_diff;
@@ -36,13 +36,11 @@ pub fn add(mut args: impl Iterator<Item = String>) -> Result<(), Error> {
         }
     }
 
-    let existing_hash = index.remove(&file_name).unwrap();
-    remove_file(format!(".nv/objects/{}", existing_hash))?;
-
     let object_file_name = format!(".nv/objects/{}", hash);
     let mut file = File::create(object_file_name)?;
     file.write_all(contents.as_bytes())?;
 
+    index.remove(&file_name).unwrap();
     index.insert(file_name, hash);
 
     write_index(&index);

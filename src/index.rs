@@ -7,7 +7,7 @@ pub fn load_index() -> HashMap<String, String> {
         .expect("Could not load index file!")
         .lines()
         .map(|l| {
-            let kvp: Vec<&str> = l.split(":").collect();
+            let kvp: Vec<&str> = l.split(" ").collect();
             (kvp[0].to_string(), kvp[1].to_string())
         })
         .collect()
@@ -18,7 +18,7 @@ pub fn write_index(index: &HashMap<String, String>) {
 
     let contents = index_vec
         .iter()
-        .map(|(key, value)| format!("{key}:{value}"))
+        .map(|(key, value)| format!("{key} {value}"))
         .collect::<Vec<String>>()
         .join("\n");
 
