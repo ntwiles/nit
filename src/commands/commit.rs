@@ -7,9 +7,9 @@ pub fn commit(mut _args: impl Iterator<Item = String>) {
     let tree_hash = write_tree(commit_tree);
 
     let commit = format!("tree {tree_hash}");
-    write_object(&commit);
+    let _commit_hash = write_object(&commit);
 
-    // Point current branch to new object.
+    // TODO: Point current branch to new object.
 }
 
 fn write_tree(tree: IndexTree) -> String {
