@@ -7,14 +7,14 @@ pub fn load_index() -> HashMap<String, String> {
         .expect("Could not load index file!")
         .lines()
         .map(|l| {
-            let kvp: Vec<&str> = l.split(" ").collect();
+            let kvp: Vec<&str> = l.split(' ').collect();
             (kvp[0].to_string(), kvp[1].to_string())
         })
         .collect()
 }
 
 pub fn write_index(index: &HashMap<String, String>) {
-    let index_vec: Vec<(&String, &String)> = index.into_iter().collect();
+    let index_vec: Vec<(&String, &String)> = index.iter().collect();
 
     let contents = index_vec
         .iter()

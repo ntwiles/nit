@@ -8,5 +8,5 @@ pub fn sha_256_hex(data: &str) -> String {
         hex += &format!("{:x}", num);
     }
 
-    return hex;
+    hex
 }

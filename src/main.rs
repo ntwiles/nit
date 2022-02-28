@@ -6,7 +6,7 @@ mod util;
 
 use std::env;
 
-use commands::*;
+use commands::{add::*, diff};
 
 fn main() {
     let mut args = env::args();
