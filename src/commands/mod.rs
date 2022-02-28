@@ -1,4 +1,5 @@
 pub mod add;
+pub mod status;
 
 use std::fs::read_to_string;
 

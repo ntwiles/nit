@@ -6,7 +6,7 @@ mod util;
 
 use std::env;
 
-use commands::{add::*, diff};
+use commands::{add::*, diff, status::*};
 
 fn main() {
     let mut args = env::args();
@@ -16,8 +16,9 @@ fn main() {
 
     if let Some(command) = args.next() {
         match command.as_str() {
-            "diff" => diff(),
             "add" => add(args),
+            "diff" => diff(),
+            "status" => status(args),
             other => panic!("Unknown command: {other}"),
         };
     } else {
