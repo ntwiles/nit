@@ -4,6 +4,7 @@ use std::collections::{HashMap, HashSet};
 
 use delta::Delta;
 
+// TODO: This is wrong, using a hashmap will not work for any lines which happen to be the same.
 pub fn get_diff<'a>(
     a: impl Iterator<Item = &'a str>,
     b: impl Iterator<Item = &'a str>,

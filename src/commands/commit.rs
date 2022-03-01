@@ -1,3 +1,5 @@
+use std::fs;
+
 use crate::index::{load_index_as_tree, IndexTree};
 use crate::objects::write_object;
 
@@ -7,9 +9,15 @@ pub fn commit(mut _args: impl Iterator<Item = String>) {
     let tree_hash = write_tree(commit_tree);
 
     let commit = format!("tree {tree_hash}");
-    let _commit_hash = write_object(&commit);
+    let commit_hash = write_object(&commit);
 
-    // TODO: Point current branch to new object.
+    let head = fs::read_to_string(".nit/HEAD").expect("Could not read HEAD.");
+    let head_ref = head.split(':').skip(1).next().unwrap().trim();
+
+    let branch = format!(".nit/{head_ref}");
+
+    fs::write(branch.clone(), commit_hash)
+        .expect(format!("Could not write commit hash to head: {branch}").as_str());
 }
 
 fn write_tree(tree: IndexTree) -> String {

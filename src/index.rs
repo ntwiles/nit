@@ -57,7 +57,7 @@ pub fn load_index_as_tree() -> IndexTree {
 }
 
 pub fn load_index_as_map() -> HashMap<String, String> {
-    read_to_string(".nv/index")
+    read_to_string(".nit/index")
         .expect("Could not load index file.")
         .lines()
         .map(|l| {
@@ -79,7 +79,7 @@ pub fn write_index(index: &HashMap<String, String>) {
 
     let mut file = std::fs::OpenOptions::new()
         .write(true)
-        .open(".nv/index")
+        .open(".nit/index")
         .expect("Could not open index file to write.");
 
     file.write_all(contents.as_bytes())
