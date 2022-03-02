@@ -15,7 +15,6 @@ pub fn load_commit_tree(tree_object: &str) -> CommitTree {
     let mut blobs = Vec::new();
 
     for item in tree {
-        println!("item: {item:#?}");
         match item {
             NitTreeObjectItem::BlobPointer(blob_pointer) => {
                 let BlobPointer { file_name, hash } = blob_pointer;

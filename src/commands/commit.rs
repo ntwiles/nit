@@ -12,12 +12,12 @@ pub fn commit(mut _args: impl Iterator<Item = String>) {
     let commit_hash = write_object(&commit);
 
     let head = fs::read_to_string(".nit/HEAD").expect("Could not read HEAD.");
-    let head_ref = head.split(':').skip(1).next().unwrap().trim();
+    let head_ref = head.split(':').nth(1).unwrap().trim();
 
     let branch = format!(".nit/{head_ref}");
 
     fs::write(branch.clone(), commit_hash)
-        .expect(format!("Could not write commit hash to head: {branch}").as_str());
+        .unwrap_or_else(|_| panic!("Could not write commit hash to head: {branch}"));
 }
 
 fn write_tree(tree: IndexTree) -> String {

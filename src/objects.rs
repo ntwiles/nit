@@ -47,43 +47,20 @@ pub struct NitCommitObject {
     pub tree: String,
 }
 
-pub fn read_commit_object(hash: &str) -> NitCommitObject {
-    let mut tree = String::new();
-
-    for line in read_object(hash).lines() {
-        let mut line = line.split(' ');
-        let label = line.next().unwrap();
-
-        match label {
-            "tree" => {
-                tree = line
-                    .next()
-                    .expect("Must supply a hash value to commit tree field.")
-                    .to_string()
-            }
-            _ => todo!(),
-        }
-    }
-
-    NitCommitObject { tree }
-}
-
 pub fn read_tree_object(hash: &str) -> Vec<NitTreeObjectItem> {
-    println!("Reading tree object: {hash}");
     let raw = read_object(hash);
-    raw.lines().map(|l| NitTreeObjectItem::new(l)).collect()
+    raw.lines().map(NitTreeObjectItem::new).collect()
 }
 
 pub fn read_object(hash: &str) -> String {
     let object_file_name = format!(".nit/objects/{}", hash);
     fs::read_to_string(object_file_name)
-        .expect(format!("Could not read object file: {hash}").as_str())
+        .unwrap_or_else(|_| panic!("Could not read object file: {hash}"))
 }
 
 pub fn write_object(contents: &str) -> String {
-    let hash = sha_256_hex(&contents);
+    let hash = sha_256_hex(contents);
 
-    println!("Writing hash {hash}");
     let object_file_name = format!(".nit/objects/{}", hash);
     let mut file = fs::File::create(object_file_name).expect("Could not create object file.");
 
