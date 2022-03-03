@@ -44,6 +44,7 @@ impl IndexTree {
 pub fn load_index_as_tree() -> IndexTree {
     let map = load_index_as_map();
 
+    // TODO: What is this?
     let _dirs = HashMap::<String, String>::new();
 
     let mut tree = IndexTree::new();
@@ -67,11 +68,8 @@ pub fn load_index_as_map() -> HashMap<String, String> {
         .collect()
 }
 
-// TODO: Is there a better way to serialize this?
 pub fn write_index(index: &HashMap<String, String>) {
-    let index_vec: Vec<(&String, &String)> = index.iter().collect();
-
-    let contents = index_vec
+    let contents = index
         .iter()
         .map(|(key, value)| format!("{key} {value}"))
         .collect::<Vec<String>>()
@@ -84,5 +82,6 @@ pub fn write_index(index: &HashMap<String, String>) {
 
     file.write_all(contents.as_bytes())
         .expect("Could not write to index file.");
+
     file.flush().unwrap();
 }
