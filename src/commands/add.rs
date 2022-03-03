@@ -8,8 +8,7 @@ pub fn add(mut args: impl Iterator<Item = String>) {
 
     let contents = read_to_string(&file_name).expect("Could not load file contents.");
 
-    // TODO: Check if object already exists?
-
+    // TODO: Check if object already exists before doing all this work?
     let hash = write_object(&contents);
 
     let mut index = load_index_as_map();
