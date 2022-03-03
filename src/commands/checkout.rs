@@ -3,14 +3,14 @@ use std::io::prelude::*;
 use std::path::Path;
 
 use crate::commits::{load_commit_tree, CommitTree};
+use crate::objects::read_commit_object;
 
 pub fn checkout<I: Iterator<Item = String>>(mut args: I) {
     let commit_hash = args.next().expect("Must specify a commit.");
 
-    // TODO: This loads the commit object as if it were a tree object,
-    // which isn't correct and won't work when more fields are added
-    // to the commit object.
-    let commit_tree = load_commit_tree(&commit_hash);
+    let commit = read_commit_object(&commit_hash);
+
+    let commit_tree = load_commit_tree(&commit.tree);
 
     let paths = fs::read_dir("./").unwrap();
 

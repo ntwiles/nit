@@ -50,6 +50,17 @@ pub struct NitCommitObject {
     pub tree: String,
 }
 
+pub fn read_commit_object(hash: &str) -> NitCommitObject {
+    let raw = read_object(hash);
+    let tree = raw
+        .split(' ')
+        .nth(1)
+        .expect("Could not read commit object. Missing tree hash.")
+        .to_string();
+
+    NitCommitObject { tree }
+}
+
 pub fn read_tree_object(hash: &str) -> Vec<NitTreeObjectItem> {
     let raw = read_object(hash);
     raw.lines().map(NitTreeObjectItem::new).collect()
@@ -57,8 +68,8 @@ pub fn read_tree_object(hash: &str) -> Vec<NitTreeObjectItem> {
 
 pub fn read_object(hash: &str) -> String {
     let object_file_name = format!(".nit/objects/{}", hash);
-    fs::read_to_string(object_file_name)
-        .unwrap_or_else(|_| panic!("Could not read object file: {hash}"))
+    fs::read_to_string(&object_file_name)
+        .unwrap_or_else(|e| panic!("Could not read object file: {object_file_name}: {e}"))
 }
 
 pub fn write_object(contents: &str) -> String {
