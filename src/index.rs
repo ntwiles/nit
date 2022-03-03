@@ -42,14 +42,11 @@ impl IndexTree {
 }
 
 pub fn load_index_as_tree() -> IndexTree {
-    let map = load_index_as_map();
-
-    // TODO: What is this?
-    let _dirs = HashMap::<String, String>::new();
+    let index = load_index_as_map();
 
     let mut tree = IndexTree::new();
 
-    for (file_name, hash) in map {
+    for (file_name, hash) in index {
         let path = Path::new(&file_name);
         tree.apply(path.iter().peekable(), hash);
     }
