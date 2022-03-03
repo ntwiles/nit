@@ -1,6 +1,7 @@
 pub mod add;
 pub mod checkout;
 pub mod commit;
+pub mod init;
 pub mod status;
 
 use std::fs::read_to_string;

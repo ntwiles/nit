@@ -1,4 +1,5 @@
 use std::fs;
+use std::io::prelude::*;
 
 use crate::index::{load_index_as_tree, IndexTree};
 use crate::objects::write_object;
@@ -16,8 +17,9 @@ pub fn commit(mut _args: impl Iterator<Item = String>) {
 
     let branch = format!(".nit/{head_ref}");
 
-    fs::write(branch.clone(), commit_hash)
-        .unwrap_or_else(|_| panic!("Could not write commit hash to head: {branch}"));
+    let mut file = fs::File::create(branch).unwrap();
+    file.write_all(commit_hash.as_bytes()).unwrap();
+    file.flush().unwrap();
 }
 
 fn write_tree(tree: IndexTree) -> String {

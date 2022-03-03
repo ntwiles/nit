@@ -8,7 +8,7 @@ mod util;
 
 use std::env;
 
-use commands::{add::*, checkout::*, commit::*, diff, status::*};
+use commands::{add::*, checkout::*, commit::*, diff, init::*, status::*};
 
 fn main() {
     let mut args = env::args();
@@ -22,6 +22,7 @@ fn main() {
             "checkout" => checkout(args),
             "commit" => commit(args),
             "diff" => diff(),
+            "init" => init(args),
             "status" => status(args),
             other => panic!("Unknown command: {other}"),
         };

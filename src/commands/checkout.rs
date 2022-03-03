@@ -1,4 +1,4 @@
-use std::fs::File;
+use std::fs;
 use std::io::prelude::*;
 use std::path::Path;
 
@@ -12,6 +12,15 @@ pub fn checkout<I: Iterator<Item = String>>(mut args: I) {
     // to the commit object.
     let commit_tree = load_commit_tree(&commit_hash);
 
+    let paths = fs::read_dir("./").unwrap();
+
+    for path in paths {
+        let path = path.unwrap();
+        if ".niv" == path.file_name() {
+            fs::remove_file(path.path()).expect("Could not remove file {path}");
+        }
+    }
+
     process_tree(Path::new(""), &commit_tree);
 }
 
@@ -22,8 +31,9 @@ fn process_tree(path: &Path, tree: &CommitTree) {
 
     for (file_name, contents) in &tree.blobs {
         let file_path = path.join(file_name);
-        let mut file = File::create(&file_path).unwrap();
+        let mut file = fs::File::create(&file_path).unwrap();
         file.write_all(contents.as_bytes())
             .unwrap_or_else(|_| panic!("Failed writing to file: {file_path:?}"));
+        file.flush().unwrap();
     }
 }

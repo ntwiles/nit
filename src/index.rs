@@ -84,4 +84,5 @@ pub fn write_index(index: &HashMap<String, String>) {
 
     file.write_all(contents.as_bytes())
         .expect("Could not write to index file.");
+    file.flush().unwrap();
 }

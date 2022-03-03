@@ -34,7 +34,10 @@ impl NitTreeObjectItem {
             }
             "tree" => {
                 let hash = raw.next().unwrap().to_string();
-                let dir_name = raw.next().unwrap().to_string();
+                let dir_name = raw
+                    .next()
+                    .expect("Dir name must be defined in tree object references.")
+                    .to_string();
                 NitTreeObjectItem::TreePointer(TreePointer { hash, dir_name })
             }
             other => panic!("Unknown tree object type {other}"),
@@ -66,6 +69,7 @@ pub fn write_object(contents: &str) -> String {
 
     file.write_all(contents.as_bytes())
         .expect("Could not write to object file.");
+    file.flush().unwrap();
 
     hash
 }
